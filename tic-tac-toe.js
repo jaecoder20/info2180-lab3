@@ -3,16 +3,18 @@ let divsArray;
 let gameState;
 let playerObj;
 let divs;
+let winner;
 window.addEventListener('load', function() {
     gameState = {
         "1": [], //row1
-        "2": [],
-        "3": [],
-        "4": [],
-        "5": [],
-        "6": [],
-        "7": [],
-        "8": [],
+        "2": [], //row
+        "3": [], //row3
+        "4": [], //col1
+        "5": [], //col2
+        "6": [],  //col3
+        "7": [], //dia1
+        "8": [], //dia2
+        "isFull": 0,
     };
     let board = document.getElementById('board');
     divs = board.getElementsByTagName('div');
@@ -78,44 +80,53 @@ let updateaGameState = function(index,playerObj,gameState){
         gameState["1"]+=[playerObj.value];
         gameState["4"]+=[playerObj.value];
         gameState["7"]+=[playerObj.value];
+        gameState.isFull+=1;
         
     }
     else if(index==2){
         gameState["1"]+=[playerObj.value];
         gameState["5"]+=[playerObj.value];
+        gameState.isFull+=1;
     }
     else if(index==3){
         gameState["1"]+=[playerObj.value];
         gameState["6"]+=[playerObj.value];
         gameState["8"]+=[playerObj.value];
+        gameState.isFull+=1;
     }
     else if(index==4){
         gameState["2"]+=[playerObj.value];
         gameState["4"]+=[playerObj.value];
+        gameState.isFull+=1;
     }
     else if(index==5){
         gameState["2"]+=[playerObj.value];
         gameState["5"]+=[playerObj.value];
         gameState["7"]+=[playerObj.value];
         gameState["8"]+=[playerObj.value];
+        gameState.isFull+=1;
     }
     else if(index==6){
         gameState["2"]+=[playerObj.value];
         gameState["6"]+=[playerObj.value];
+        gameState.isFull+=1;
     }
     else if(index==7){
         gameState["3"]+=[playerObj.value];
         gameState["4"]+=[playerObj.value];
         gameState["8"]+=[playerObj.value];
+        gameState.isFull+=1;
     }
     else if(index==8){
         gameState["3"]+=[playerObj.value];
         gameState["5"]+=[playerObj.value];
+        gameState.isFull+=1;
     }
     else if(index==9){
         gameState["3"]+=[playerObj.value];
         gameState["6"]+=[playerObj.value];
         gameState["7"]+=[playerObj.value];
+        gameState.isFull+=1;
     }
 
 }
@@ -143,13 +154,21 @@ let checkWinner = function(gameState,divs){
             div.classList.add("you-won")
             div.textContent = "Congratulations! O is the Winner!";
             disablePlaying(divs);
+            winner = true;
         } else if (value[0] === "X" && value[1] === "X" && value[2] === "X") {
             div.classList.add("you-won")
             div.textContent = "Congratulations! X is the Winner!";
             disablePlaying(divs);
+            winner = true;
+        }
+        else if ((gameState.isFull==9)&&(winner==false)){
+            div.classList.add("you-won");
+            div.textContent = "It's a Tie";
         }
     }
 }
+
+
 
 
 
@@ -174,6 +193,7 @@ let hoverable = function(divs){
 function newGameListener(){
     let newGameButton = document.querySelector("button");
     let statusDiv = document.getElementById("status")
+    winner = false;
     newGameButton.addEventListener('click', function(){
         for(let i=0;i<divs.length;i++){
             divs[i].textContent = "";
@@ -183,6 +203,7 @@ function newGameListener(){
             gameState[i+1] = [];
             }
         }
+        gameState.isFull = 0;
         divsArray.forEach(div => {
             div.addEventListener('click', hitBoxHandler);
         });
