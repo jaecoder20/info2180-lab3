@@ -5,14 +5,14 @@ let playerObj;
 let divs;
 window.addEventListener('load', function() {
     gameState = {
-        "row1": [],
-        "row2": [],
-        "row3": [],
-        "col1": [],
-        "col2": [],
-        "col3": [],
-        "diagonal1": [],
-        "diagonal2": [],
+        "1": [], //row1
+        "2": [],
+        "3": [],
+        "4": [],
+        "5": [],
+        "6": [],
+        "7": [],
+        "8": [],
     };
     let board = document.getElementById('board');
     divs = board.getElementsByTagName('div');
@@ -25,6 +25,7 @@ window.addEventListener('load', function() {
     divsArray.forEach(div => {
         div.addEventListener('click', hitBoxHandler);
     });
+    newGameListener();
     
    
     
@@ -54,7 +55,7 @@ let place_X_or_O = function(event, divs, playerObj, gameState){
     
     let clickedCell = event.target;
     let index = clickedCell.id; 
-    console.log(divs);
+    console.log(playerObj.value)
     if (divs[index-1].textContent === '') {
         if (playerObj.value==="X"){
             clickedCell.classList.add("X")
@@ -74,47 +75,47 @@ let place_X_or_O = function(event, divs, playerObj, gameState){
 
 let updateaGameState = function(index,playerObj,gameState){
     if (index==1){
-        gameState["row1"]+=[playerObj.value];
-        gameState["col1"]+=[playerObj.value];
-        gameState["diagonal1"]+=[playerObj.value];
+        gameState["1"]+=[playerObj.value];
+        gameState["4"]+=[playerObj.value];
+        gameState["7"]+=[playerObj.value];
         
     }
     else if(index==2){
-        gameState["row1"]+=[playerObj.value];
-        gameState["col2"]+=[playerObj.value];
+        gameState["1"]+=[playerObj.value];
+        gameState["5"]+=[playerObj.value];
     }
     else if(index==3){
-        gameState["row1"]+=[playerObj.value];
-        gameState["col3"]+=[playerObj.value];
-        gameState["diagonal2"]+=[playerObj.value];
+        gameState["1"]+=[playerObj.value];
+        gameState["6"]+=[playerObj.value];
+        gameState["8"]+=[playerObj.value];
     }
     else if(index==4){
-        gameState["row2"]+=[playerObj.value];
-        gameState["col1"]+=[playerObj.value];
+        gameState["2"]+=[playerObj.value];
+        gameState["4"]+=[playerObj.value];
     }
     else if(index==5){
-        gameState["row2"]+=[playerObj.value];
-        gameState["col2"]+=[playerObj.value];
-        gameState["diagonal1"]+=[playerObj.value];
-        gameState["diagonal2"]+=[playerObj.value];
+        gameState["2"]+=[playerObj.value];
+        gameState["5"]+=[playerObj.value];
+        gameState["7"]+=[playerObj.value];
+        gameState["8"]+=[playerObj.value];
     }
     else if(index==6){
-        gameState["row2"]+=[playerObj.value];
-        gameState["col3"]+=[playerObj.value];
+        gameState["2"]+=[playerObj.value];
+        gameState["6"]+=[playerObj.value];
     }
     else if(index==7){
-        gameState["row3"]+=[playerObj.value];
-        gameState["col1"]+=[playerObj.value];
-        gameState["diagonal2"]+=[playerObj.value];
+        gameState["3"]+=[playerObj.value];
+        gameState["4"]+=[playerObj.value];
+        gameState["8"]+=[playerObj.value];
     }
     else if(index==8){
-        gameState["row3"]+=[playerObj.value];
-        gameState["col2"]+=[playerObj.value];
+        gameState["3"]+=[playerObj.value];
+        gameState["5"]+=[playerObj.value];
     }
     else if(index==9){
-        gameState["row3"]+=[playerObj.value];
-        gameState["col3"]+=[playerObj.value];
-        gameState["diagonal1"]+=[playerObj.value];
+        gameState["3"]+=[playerObj.value];
+        gameState["6"]+=[playerObj.value];
+        gameState["7"]+=[playerObj.value];
     }
 
 }
@@ -170,4 +171,26 @@ let hoverable = function(divs){
         }
 }
 
+function newGameListener(){
+    let newGameButton = document.querySelector("button");
+    let statusDiv = document.getElementById("status")
+    newGameButton.addEventListener('click', function(){
+        for(let i=0;i<divs.length;i++){
+            divs[i].textContent = "";
+            divs[i].classList.remove("X");
+            divs[i].classList.remove("O")
+            if(i<9){
+            gameState[i+1] = [];
+            }
+        }
+        divsArray.forEach(div => {
+            div.addEventListener('click', hitBoxHandler);
+        });
+        console.log("Gamestate");
+        console.log(gameState);
+        playerObj.value="X"
+        statusDiv.textContent= "Move your mouse over a square and click to play an X or an O.";
+        statusDiv.classList.remove("you-won");
+    });
+}
 
