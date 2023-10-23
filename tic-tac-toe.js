@@ -147,19 +147,22 @@ let disablePlaying = function(divs){
 }
 let checkWinner = function(gameState,divs){
     let div = document.getElementById("status");
-    
+    winner = false;
     for (let key in gameState) {
+        console.log(winner)
         let value = gameState[key]; 
         if (value[0] === "O" && value[1] === "O" && value[2] === "O") {
             div.classList.add("you-won")
             div.textContent = "Congratulations! O is the Winner!";
-            disablePlaying(divs);
             winner = true;
+            disablePlaying(divs);
+            
         } else if (value[0] === "X" && value[1] === "X" && value[2] === "X") {
             div.classList.add("you-won")
             div.textContent = "Congratulations! X is the Winner!";
-            disablePlaying(divs);
             winner = true;
+            disablePlaying(divs);
+            
         }
         else if ((gameState.isFull==9)&&(winner==false)){
             div.classList.add("you-won");
